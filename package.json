@@ -1,0 +1,24 @@
+{
+  "name": "todo-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mongoose": "^6.2.7",
+    "next": "12.1.0",
+    "nextjs-cors": "^2.1.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "recoil": "^0.6.1"
+  },
+  "devDependencies": {
+    "eslint": "8.11.0",
+    "eslint-config-next": "12.1.0"
+  }
+}
