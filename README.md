@@ -2,6 +2,10 @@
 
 A ToDo app created using a MERN stack.
 
-Libraries used: cors, mongoose, next, nextjs-cors, react, react-dom, recoil
+# Getting Started
+
+- npm i
+- npm run build
+- npm run start
 
 Contributers: Eric Stranquist
