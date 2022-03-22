@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
 
 export const CardSchema = new mongoose.Schema({
-    cid: { type: Number },  // card id
-    uid: { type: Number },  // user id
-    title: { type: String },
-    content: { type: String },
-    color: { type: String },    // rgb value
+    // _id: { type: ObjectId, required: true },  // card id
+    uid: { type: Number, required: true },  // user id
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    color: { type: String, required: true },    // rgb hex value
     tags: [ String ],
     img_url: [
         {
@@ -13,7 +13,7 @@ export const CardSchema = new mongoose.Schema({
             caption: { type: String }
         }
     ],
-    timestamp: { type: Number } // Date milliseconds since epoc
+    timestamp: { type: Date, default: Date.now(), required: true } // Date milliseconds since epoc
 })
   
 export default mongoose.models.Card || mongoose.model('Card', CardSchema);
