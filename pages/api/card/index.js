@@ -1,10 +1,10 @@
-import connectDB from '../../../../middleware/mongodb'
+import connectDB from '../../../middleware/mongodb'
 import {
   getCardHandler
 } from '../../../controllers/card'
 import NextCors from 'nextjs-cors'
 
-const addCardHandler = async (req, res) => {
+const cardHandler = async (req, res) => {
   await NextCors(req, res, {
     // Options
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
@@ -14,10 +14,16 @@ const addCardHandler = async (req, res) => {
 
   switch(req.method) {
     case "GET":
-      return getCardHandler(req, res);
+      return getCardHandler(req, res)
+    case "POST":
+      return addCardHandler(req, res)
+    case "DELETE":
+      return removeCardHandler(req, res)
+    case "PATCH":
+      return updateCardHandler(req, res)
     default:
       return res.status(400).send({ok: false, message: "Request type not supported"})
   }
 }
 
-export default connectDB(addCardHandler)
+export default connectDB(cardHandler)

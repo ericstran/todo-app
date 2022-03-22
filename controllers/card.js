@@ -1,12 +1,12 @@
-import MenuModel from '../model/Menu'
+import CardModel from '../model/Card'
 
-// get menu
-export const getMenuHandler = async (req, res) => {
+// get Card
+export const getCardHandler = async (req, res) => {
   try {
-    const result = await MenuModel.find({})
+    const result = await CardModel.find({})
 
     // if result not found, return error
-    console.log("menu result:", result)
+    console.log("Card result:", result)
 
     if(!result) {
       // send error
@@ -18,7 +18,7 @@ export const getMenuHandler = async (req, res) => {
 
     return res.status(200).send({
       ok: true,
-      message: "Menu found",
+      message: "Card found",
       data: result
     })
 
@@ -27,7 +27,7 @@ export const getMenuHandler = async (req, res) => {
 
     return res.status(400).send({
       ok: false,
-      message: "Error getting menu: " + error.message
+      message: "Error getting Card: " + error.message
     })
   }
 }

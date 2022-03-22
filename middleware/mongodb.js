@@ -6,10 +6,9 @@ const connectDB = handler => async (req, res) => {
         return handler(req, res);
     }
     // Use new db connection
-    await mongoose.connect('mongodb://localhost:3000/test', {
-        ssl: true,
-        sslValidate: true,
-        sslCA: `${__dirname}/cert.pem`
+    await mongoose.connect(process.env.MONGODB_URI, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
     });
     return handler(req, res);
 };
