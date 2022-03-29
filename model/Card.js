@@ -6,14 +6,20 @@ export const CardSchema = new mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     color: { type: String, required: true },    // rgb hex value
-    tags: [ String ],
-    img_url: [
-        {
-            url: { type: String }, // not URL encoded
-            caption: { type: String }
-        }
-    ],
-    timestamp: { type: Date, default: Date.now(), required: true } // Date milliseconds since epoc
+    tags: {
+        type: [String],
+        required: true
+    },
+    img_url: {
+        type: [
+            {
+                url: { type: String }, // not URL encoded
+                caption: { type: String }
+            }
+        ],
+        required: true
+    },
+    timestamp: { type: Date, default: Date.now(), required: false } // Date milliseconds since epoc
 })
   
 export default mongoose.models.Card || mongoose.model('Card', CardSchema);

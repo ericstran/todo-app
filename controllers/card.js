@@ -1,3 +1,4 @@
+import { findDOMNode } from 'react-dom';
 import CardModel from '../model/Card'
 
 // get Card
@@ -32,47 +33,69 @@ export const getCardHandler = async (req, res) => {
   }
 }
 
+// post Card
+/************************************************
+ * pull inputs expected from request body.      *
+ * check falsy inputs (allow empty string "").  *
+ * construct new object.                        *
+ * construct new class object.                  *
+ * save the class object to atlas               *
+ ************************************************/
 export const postCardHandler = async (req, res) => {
   
-  const uid = req.body.uid  // required
-  const title = req.body.title  // required
-  const content = req.body.content  // required
-  const color = req.body.color  // required
-  const tags = req.body.tags  // array, not required
-  const img_url = req.body.img_url  // array of objects, not required
-  const timestamp = req.body.timestamp  // Date object, required
+  const uid = req.body.uid  // required, String
+  const title = req.body.title  // required, String , may be empty quotes
+  const content = req.body.content  // required, String , may be empty quotes
+  const color = req.body.color  // required, String , may be empty quotes
+  const tags = req.body.tags  // required, array of strings
+  const img_url = req.body.img_url  // required, array of {url:String, caption:String} objects
 
-  if(!uid || !title || !content || !color || !timestamp) {
-    return res.status(404).send({
+  // console.log("uid: ",uid)
+  // console.log("title: ",title)
+  // console.log("content: ",content)
+  // console.log("color: ",color)
+  // console.log("tags: ",tags)
+  // console.log("img_url: ",img_url)
+  // console.log("\n")
+  
+  // falsey input checking
+  if(!uid || (!title && title!="") || (!content && content!="") || (!color && color!="") || !tags || !img_url) {
+    return res.status(400).send({
       ok: false,
-      message: 'missing required input'
-    });
+      message: 'Bad input'
+    })
   }
 
-  
-
-  let newCard = {
+  // construct new object
+  const newCard = {
     uid: uid,
     title: title,
-    content: content
+    content: content,
+    color: color,
+    tags: tags,
+    img_url: img_url,
   }
 
+  // mongoose posting attempt
   try {
-
-    // post to mongodb atlas code
-
+    // construct class object
+    const result = new CardModel(newCard)
+    // save to atlas
+    await result.save()
+    
+    // success!
     return res.status(200).send({
       ok: true,
-      message: "Card found",
+      message: "Card created and posted!",
       data: result
     })
 
   } catch(error) {
-    console.log("mongoose error:", error)
+    console.log("server error: ", error)
 
-    return res.status(400).send({
+    return res.status(500).send({
       ok: false,
-      message: "Error posting Card: " + error.message
+      message: "Unknown error while posting Card: " + error.message
     })
   }
 }
